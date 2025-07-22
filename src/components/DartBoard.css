@@ -1,0 +1,73 @@
+/* Главный контейнер для центрирования */
+.dart-board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+/* Контейнер для SVG */
+.dart-board-svg {
+  position: relative;
+}
+
+/* Стили для кликабельных секторов */
+.sector-clickable {
+  cursor: pointer;
+  transition: filter 0.15s ease-in-out;
+}
+
+.sector-clickable:hover {
+  filter: brightness(1.1);
+}
+
+/* Блокировка доски и курсора */
+.dart-board-wrapper.disabled .sector-clickable {
+  cursor: not-allowed;
+}
+
+.dart-board-wrapper.disabled .sector-clickable:hover {
+  filter: none;
+}
+
+/* Стили для индикатора счета */
+.sector-indicator-container {
+  margin-top: 20px;
+  min-height: 40px; /* Резервируем место, чтобы layout не прыгал */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sector-indicator,
+.sector-indicator-placeholder {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sector-indicator-placeholder {
+  color: #999;
+}
+
+/* Анимация маркера попадания */
+@keyframes dart-hit {
+  from {
+    transform: scale(2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.dart-marker {
+  animation: dart-hit 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  pointer-events: none; /* Маркер не должен перехватывать клики */
+}
