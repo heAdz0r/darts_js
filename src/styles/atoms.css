@@ -1,0 +1,620 @@
+/* Atomic CSS Components - Darts Theme */
+
+/* Animation Keyframes */
+@keyframes counterIncrement {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    color: var(--dart-green);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes timerPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes timerCritical {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    color: var(--dart-red);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+    color: #ff4757;
+  }
+}
+
+@keyframes dartboardSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dart throw animations */
+@keyframes dartThrow {
+  0% {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1) rotateZ(5deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes scoreUpdate {
+  0% {
+    transform: scale(1);
+    color: var(--dart-green);
+  }
+  50% {
+    transform: scale(1.3);
+    color: var(--dart-gold);
+  }
+  100% {
+    transform: scale(1);
+    color: var(--dart-green);
+  }
+}
+
+@keyframes bullseyeHit {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+@keyframes playerChange {
+  0% {
+    background: rgba(25, 135, 84, 0.05);
+    transform: translateY(0);
+  }
+  50% {
+    background: rgba(25, 135, 84, 0.2);
+    transform: translateY(-2px);
+  }
+  100% {
+    background: rgba(25, 135, 84, 0.05);
+    transform: translateY(0);
+  }
+}
+
+@keyframes winnerAnnouncement {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bullseyeHit {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.15) rotate(3deg);
+  }
+  75% {
+    transform: scale(1.15) rotate(-3deg);
+  }
+}
+
+@keyframes dartThrow {
+  0% {
+    transform: translateX(-100px) rotate(-15deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(10px) rotate(5deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Score Counter Animations */
+.score-increment {
+  animation: counterIncrement 0.4s ease-out;
+}
+
+.score-value {
+  transition: all 0.3s ease-out;
+}
+
+.score-value.updating {
+  animation: counterIncrement 0.4s ease-out;
+}
+
+/* Timer Animations */
+.timer-value {
+  transition: all 0.3s ease-out;
+}
+
+.timer-value.warning {
+  animation: timerPulse 1s ease-in-out infinite;
+  color: var(--dart-gold) !important;
+}
+
+.timer-value.critical {
+  animation: timerCritical 0.5s ease-in-out infinite;
+}
+
+.timer-solid {
+  background: linear-gradient(135deg, var(--dart-cream) 0%, var(--dart-light) 100%);
+  border: 4px solid var(--dart-dark);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1),
+    inset 0 2px 4px 0 rgb(255 255 255 / 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.timer-solid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(25, 59, 25, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease-out;
+}
+
+.timer-solid:hover::before {
+  left: 100%;
+}
+
+/* Dartboard Animations */
+.dartboard-spin {
+  animation: dartboardSpin 20s linear infinite;
+}
+
+.dartboard-spin.slow {
+  animation-duration: 40s;
+}
+
+.bullseye-hit {
+  animation: bullseyeHit 0.6s ease-out;
+}
+
+/* Dart Throw Animation */
+.dart-throw {
+  animation: dartThrow 1s ease-out;
+}
+
+/* Winner Animations */
+.winner-animation {
+  animation: bullseyeHit 2s ease-in-out infinite;
+  border-color: var(--dart-gold) !important;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.winner-animation::after {
+  content: "🎯";
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  font-size: var(--text-2xl);
+  animation: bullseyeHit 1s ease-in-out infinite;
+}
+
+/* Confetti Animation */
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall 3s linear infinite;
+}
+
+.confetti-0 {
+  background: var(--dart-green);
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.confetti-1 {
+  background: var(--dart-red);
+  left: 30%;
+  animation-delay: 0.5s;
+}
+
+.confetti-2 {
+  background: var(--dart-gold);
+  left: 50%;
+  animation-delay: 1s;
+}
+
+.confetti-3 {
+  background: var(--dart-dark);
+  left: 70%;
+  animation-delay: 1.5s;
+}
+
+/* Sticky Headers */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(
+    135deg,
+    var(--dart-dark),
+    var(--dart-green)
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Chip Components */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 20px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all 0.2s ease-out;
+  cursor: default;
+}
+
+.chip:hover {
+  transform: scale(1.05);
+}
+
+.chip.success {
+  background: rgba(25, 135, 84, 0.1);
+  color: var(--dart-green);
+  border: 1px solid rgba(25, 135, 84, 0.2);
+}
+
+.chip.warning {
+  background: rgba(255, 193, 7, 0.1);
+  color: var(--dart-gold);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.chip.error {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--dart-red);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.chip.primary {
+  background: rgba(25, 59, 25, 0.1);
+  color: var(--dart-dark);
+  border: 1px solid rgba(25, 59, 25, 0.2);
+}
+
+/* Loading Shimmer */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--dart-light) 0px,
+    rgba(255, 255, 255, 0.8) 40px,
+    var(--dart-light) 80px
+  );
+  background-size: 200px;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Slide Animations */
+.slide-in-up {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.fade-in-scale {
+  animation: fadeInScale 0.3s ease-out;
+}
+
+/* Material UI Grid Lines */
+.mui-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.mui-grid.dense {
+  gap: var(--space-4);
+}
+
+.mui-grid.sparse {
+  gap: var(--space-8);
+}
+
+/* Better Fonts */
+.font-display {
+  font-family: var(--font-family);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-large {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+}
+
+.font-timer {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Darts-themed Color Scheme Utilities */
+.bg-dart-primary {
+  background: linear-gradient(
+    135deg,
+    var(--dart-dark) 0%,
+    var(--dart-green) 100%
+  );
+}
+
+.bg-dart-success {
+  background: linear-gradient(135deg, var(--dart-green) 0%, #198754 100%);
+}
+
+.bg-dart-warning {
+  background: linear-gradient(135deg, var(--dart-gold) 0%, #ffc107 100%);
+}
+
+.text-dart-primary {
+  background: linear-gradient(
+    135deg,
+    var(--dart-dark),
+    var(--dart-green)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced Button Styles */
+.btn-dart {
+  background: linear-gradient(
+    135deg,
+    var(--dart-green) 0%,
+    var(--dart-dark) 100%
+  );
+  color: var(--dart-cream);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-8);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(25, 59, 25, 0.3);
+}
+
+.btn-dart::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.3s ease-out;
+}
+
+.btn-dart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(25, 59, 25, 0.4);
+}
+
+.btn-dart:hover::before {
+  left: 100%;
+}
+
+.btn-dart:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(25, 59, 25, 0.3);
+}
+
+/* Dartboard Specific Styles */
+.dartboard-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+.dartboard-outer-ring {
+  border: 4px solid var(--dart-dark);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(25, 59, 25, 0.3),
+              inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Design Helpers */
+@media (max-width: 768px) {
+  .font-timer {
+    font-size: clamp(2rem, 6vw, 4rem);
+  }
+
+  .font-large {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .mui-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .dartboard-container {
+    padding: var(--space-4);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .chip {
+    border-width: 2px;
+  }
+
+  .timer-solid {
+    border-width: 3px;
+  }
+
+  .dartboard-outer-ring {
+    border-width: 6px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .score-increment,
+  .score-value.updating,
+  .timer-value.warning,
+  .timer-value.critical,
+  .dartboard-spin,
+  .bullseye-hit,
+  .dart-throw,
+  .winner-animation,
+  .confetti-piece,
+  .slide-in-up,
+  .fade-in-scale,
+  .shimmer {
+    animation: none !important;
+  }
+
+  .chip:hover,
+  .btn-dart:hover {
+    transform: none !important;
+  }
+}
+
+/* New Dart Game Animation Classes */
+.dart-throw-animation {
+  animation: dartThrow 0.4s ease-out;
+}
+
+.score-update-animation {
+  animation: scoreUpdate 0.5s ease-out;
+}
+
+.bullseye-hit-animation {
+  animation: bullseyeHit 0.6s ease-out;
+}
+
+.player-change-animation {
+  animation: playerChange 0.5s ease-out;
+}
+
+.winner-animation-new {
+  animation: winnerAnnouncement 0.8s ease-out;
+}
