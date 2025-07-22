@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, ReactNode } from "react";
-import { GameState, Player, DartThrow, GameSettings } from "@/types";
+import { GameState, Player, DartThrow, GameSettings, Turn } from "@/types";
+import { StatisticsManager } from "@/utils/statistics";
 
 interface GameContextType {
   gameState: GameState;
@@ -63,10 +64,12 @@ const initialState: GameState = {
   players: defaultPlayers,
   currentPlayerIndex: 0,
   throws: [],
+  turns: [],
   gameType: "standard501",
   isFinished: false,
   startingScore: 501,
   doubleOut: true, // по умолчанию включен double out
+  totalTurns: 0,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -144,7 +147,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         })),
         currentPlayerIndex: 0,
         throws: [],
+        turns: [],
         isFinished: false,
+        totalTurns: 0,
       };
 
     case "MAKE_THROW":
@@ -200,7 +205,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         currentPlayerUpdated.score === 0 &&
         checkFinishRules(0, action.multiplier, state);
 
-      return {
+      const newState = {
         ...state,
         players: updatedPlayers,
         throws: [...state.throws, newThrow],
@@ -208,17 +213,41 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         winner: isValidWin ? currentPlayerUpdated.id : state.winner,
       };
 
+      // Save statistics when game finishes
+      if (isValidWin) {
+        StatisticsManager.saveGameStatistics(newState).catch(console.error);
+      }
+
+      return newState;
+
     case "NEXT_PLAYER":
       const currentPlayerState = state.players[state.currentPlayerIndex];
 
       // Переход к следующему игроку только если текущий игрок использовал все дротики
       if (currentPlayerState.dartsThrown < 3 && !state.isFinished) return state;
 
+      // Create turn record
+      const currentPlayerThrows = state.throws
+        .filter((t) => t.playerId === currentPlayerState.id)
+        .slice(-currentPlayerState.dartsThrown);
+
+      const newTurn: Turn = {
+        id: crypto.randomUUID(),
+        playerId: currentPlayerState.id,
+        playerName: currentPlayerState.name,
+        throws: currentPlayerThrows,
+        totalPoints: currentPlayerThrows.reduce((sum, t) => sum + t.points, 0),
+        turnNumber: state.totalTurns + 1,
+        timestamp: new Date(),
+      };
+
       const nextIndex = (state.currentPlayerIndex + 1) % state.players.length;
 
       return {
         ...state,
         currentPlayerIndex: nextIndex,
+        totalTurns: state.totalTurns + 1,
+        turns: [...state.turns, newTurn],
         players: state.players.map((player, index) => ({
           ...player,
           isCurrentPlayer: index === nextIndex,
@@ -236,6 +265,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           isCurrentPlayer: false,
           dartsThrown: 0,
         })),
+        turns: [],
+        totalTurns: 0,
       };
 
     case "UNDO_LAST_THROW":
